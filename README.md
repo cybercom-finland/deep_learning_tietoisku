@@ -5,6 +5,10 @@ See: https://www.meetup.com/Cybercom-Tietoiskut/events/233091086/
 
 # Links
 
+## Recap
+
+http://deeplearning.cs.cmu.edu/notes/yuxiong_CD.pdf
+
 ## Unsupervised pre-training
 
 http://www.jmlr.org/papers/volume11/erhan10a/erhan10a.pdf

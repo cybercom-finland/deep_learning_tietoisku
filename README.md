@@ -5,7 +5,7 @@ See: https://www.meetup.com/Cybercom-Tietoiskut/events/233091086/
 
 # Links
 
-## Recap
+## Training Neural Networks
 
 http://deeplearning.cs.cmu.edu/notes/yuxiong_CD.pdf
 

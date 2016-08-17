@@ -3,15 +3,21 @@
 \usepackage[utf8]{inputenc}
 \usepackage{default}
 \usepackage{hyperref}
+\usepackage{textpos}
 \usetheme{Copenhagen}
 
 \title{Deep Learning}
 \subtitle{Learning High-degree Non-linear Models: \\
 Enabling factors, tips and tricks}
 \author{Tero Keski-Valkama}
-\institute{Cybercom}
+\institute{\includegraphics[height=1.4cm]{cybercom-blue.png}}
 \date{2016-08-24}
-\logo{\includegraphics[height=1.5cm]{cybercom-blue.png}}
+
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(10.95cm,-0.8cm)
+\includegraphics[height=0.8cm]{cybercom-blue.png}
+\end{textblock*}}
+
 
 \begin{document}
 
@@ -61,6 +67,7 @@ Enabling factors, tips and tricks}
  \item A good platform to use for neural network experimentation is Google's TensorFlow, based on Python.
 \end{itemize}
 
+\centering{
 \begin{tabular}{| c | c |}
 \hline
 Supervised & Unsupervised \\
@@ -68,7 +75,7 @@ Backpropagation & Contrastive Divergence \\
 Non-energy-based Methods & Energy-based Methods \\
 \hline
  
-\end{tabular} 
+\end{tabular}}
 
 \end{frame}
 
@@ -108,14 +115,148 @@ Non-energy-based Methods & Energy-based Methods \\
  \begin{displaymath}
   RegularizedLoss = Loss + \alpha \cdot SquaredWeights^\beta
  \end{displaymath}
+ \centering{
  \includegraphics[width=0.9\textwidth]{./Typical_cnn.png}
+ }
  \footnote{Image from: Aphex34, Wikipedia}
 \end{frame}
 
+\begin{frame}
+\frametitle{Unsupervised pre-training}
+ \begin{itemize}
+  \item Unsupervised pre-training makes use of a lot of unlabeled data, learning the overall structure of the domain,
+        which can be fine-tuned with backpropagation for specific labels at a later stage. More data, less labels.
+        \footnote{\href{http://www.jmlr.org/papers/volume11/erhan10a/erhan10a.pdf}{http://www.jmlr.org/papers/volume11/erhan10a/erhan10a.pdf}}
+  \item This could be thought of as "pre-training as regularization", or approaching neural reinforcement learning.
+  \item Free pre-trained models are available from Google and Oxford University. Mostly convolutional nets trained on images and video.
+        \footnote{\href{http://www.vlfeat.org/matconvnet/pretrained/}{http://www.vlfeat.org/matconvnet/pretrained/}}
+  \item The models are taught using for example greedy DBN Contrastive Divergence or other autoencoding methods.
+  \item In general, neural networks get better when trained on a different task with similar data.
+        \footnote{\href{http://blogs.microsoft.com/next/2015/12/10/microsoft-researchers-win-imagenet-computer-vision-challenge/}
+        {http://blogs.microsoft.com/next/2015/12/10/microsoft- \\ researchers-win-imagenet-computer-vision-challenge/}}
+ \end{itemize}
+\end{frame}
 
+\begin{frame}
+\frametitle{Near-linear Activation Functions}
+ \begin{itemize}
+  \item Deep neural networks are effective because of non-linear activation functions – Stacking linear
+        layers only reduces to a single linear layer.
+  \item However, non-linearities are challenging to learn. Minimizing the non-linearity has been shown to
+        be really useful. Deep neural networks can be trained without unsupervised pre-training if rectifier
+        activation functions are used. (otherwise cannot)
+ \end{itemize}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+ \begin{figure}[h]
+   \caption{Rectifier}
+   \includegraphics[width=0.9\textwidth]{./rect.png}
+ \end{figure}
+\end{column}
+\begin{column}{0.5\textwidth}
+ \begin{figure}[h]
+   \caption{Leaky Rectifier}
+   \includegraphics[width=0.9\textwidth]{./leaky_rect.png}
+ \end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Drop-out}
+ \begin{itemize}
+  \item Dropout is a very effective strategy for preventing overfitting.
+        \footnote{\href{https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf}{https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf}}
+  \item In practice it means randomly dropping out for example half of the internal representation neurons and their output weights for each
+        training step, and scaling the outputs accordingly.
+  \item Learning is done by the randomly thinned networks, and the final use is done using the whole network.
+  \item This prevents neurons from co-adapting with each other, and learn features more independently. I.e. one neuron learns one feature,
+        not multiple neurons learning one feature.
+  \item It is a very strong method against overfitting, and should be almost always used.
+  \item Analogous to Random Forests or Ensemble Averaging Committee Machine.
+  \item The expense is more learning iterations.
+ \end{itemize}
+ \centering{
+   \includegraphics[width=0.1\textwidth]{./dropout.png}
+ }
+\end{frame}
+
+\begin{frame}
+\frametitle{Gradient clipping}
+ \begin{itemize}
+  \item Gradient explosion happens in backpropagation when the squared error gradients are amplified through activation functions
+        of multiple layers. This typically causes infinities and divergence. Limited activation functions (sigmoid, tanh) are prone to this behavior.
+  \item Gradients are often clipped to some maximum absolute value to prevent infinities.
+  \item Gradients can also diminish to zero, when a small change in internal representation means a too large change in output. If
+        a gradient goes to zero, it means it continues to be zero in backpropagation towards input. Adding noise might help the system in escaping local plateaus.
+  \item Microsoft uses special one-bit gradients only signifying the direction of change, which is always non-zero.
+        \footnote{\href{https://www.microsoft.com/en-us/research/publication/1-bit-stochastic-gradient-descent-and-application-to-data-parallel-distributed-training-of-speech-dnns/}
+        {https://www.microsoft.com/en-us/research/publication/1-bit-stochastic-gradient-descent-and-application-to-data-parallel-distributed-training-of-speech-dnns/}}
+
+ \end{itemize}
+ \centering{
+   \includegraphics[width=0.3\textwidth]{./gradients.png}
+ }
+\end{frame}
+
+\begin{frame}
+\frametitle{Metaoptimization / Hyperparameter Tuning}
+ \begin{itemize}
+ \item With increased computational capacity we have better capability for metaoptimization.
+ \item Metaoptimization means finding optimal network structures and learning parameters by running the learning multiple times with varying parameters.
+ \item Two variants: Automatic Bayesian optimization and graphical optimization.
+ \item Automatic Bayesian optimization should be used for stand-alone purposes, it finds good parameters without human aid.
+       Parameter values to test are picked automatically.
+ \item Graphical optimization is often better when human is available, and it also helps in understanding the system. You should sample
+       parameter values randomly, instead of using an uniform grid.
+ \item Process:
+\begin{enumerate}
+ \item Pick random values for 1-2 parameters
+ \item Run the training for a while (i.e. 1 hour)
+ \item Save the latest test set loss (not the best one)
+ \item Draw a graph
+\end{enumerate}
+ \item Note that sometimes random noise causes apparent optimums. Always note that the other measured points are in agreement.
+ \end{itemize}
+ \centering{
+   \includegraphics[width=0.3\textwidth]{./lr1_isom.png}
+ }
+\end{frame}
+
+\begin{frame}
+\frametitle{Metaoptimization / Hyperparameter Tuning}
+ \centering{
+   \includegraphics[width=\textwidth]{./lr1_isom.png}
+ }
+\end{frame}
+
+\begin{frame}
+\frametitle{Reservoir computing}
+ \begin{itemize}
+ \item A common name for methods that utilize a large, pre-initialized network, and then train a simple linear model with this large reservoir.
+ \item Based on the observation that neural networks tend to learn mostly on the final layers anyhow.
+ \item For example: Echo-State Networks, Extreme Learning Machine.
+ \item Fast to train, work very well in domains where semantic depth is not required.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{What did we learn?}
+ \begin{itemize}
+  \item To make deep neural networks actually do anything useful, you need a bag of tricks:
+  \item Regularization: Managing the number of parameters
+  \item Pre-training with massive datasets
+  \item Rectifier activation functions
+  \item Dropout
+  \item Gradient clipping
+  \item These should be always used where relevant. In addition, the network structure and learning parameters should always be meta-optimized.
+  \item The next lectures will be about:
+  \begin{itemize}
+    \item Data encoding / representation
+    \item TensorFlow and meta-optimization
+  \end{itemize}
+ \end{itemize}
+\end{frame}
 
 \end{document}
-
-
-
 

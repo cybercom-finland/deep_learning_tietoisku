@@ -3,7 +3,9 @@ Supporting material for the Deep Learning -tietoisku in Tampereen Yliopisto, Pä
 
 See: https://www.meetup.com/Cybercom-Tietoiskut/events/233091086/
 
-# Links
+[Presentation](https://github.com/cybercom-finland/deep_learning_tietoisku/raw/master/deep_learning.pdf)
+
+# Some of the Referred Links
 
 ## Training Neural Networks
 
@@ -18,3 +20,7 @@ http://www.vlfeat.org/matconvnet/pretrained/
 ## Dropout
 
 https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf
+
+## Gradient clipping
+
+https://www.microsoft.com/en-us/research/publication/1-bit-stochastic-gradient-descent-and-application-to-data-parallel-distributed-training-of-speech-dnns/

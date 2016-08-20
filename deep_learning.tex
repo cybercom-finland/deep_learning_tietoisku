@@ -235,8 +235,20 @@ Non-energy-based Methods & Energy-based Methods \\
  \begin{itemize}
  \item A common name for methods that utilize a large, pre-initialized network, and then train a simple linear model with this large reservoir.
  \item Based on the observation that neural networks tend to learn mostly on the final layers anyhow.
- \item For example: Echo-State Networks, Extreme Learning Machine.
+ \item For example: Echo-State Networks
+       \footnote{\href{http://minds.jacobs-university.de/sites/default/files/uploads/papers/PracticalESN.pdf}
+                      {http://minds.jacobs-university.de/sites/default/files/uploads/\\papers/PracticalESN.pdf}}
+       , Extreme Learning Machine
+       \footnote{\href{https://www.researchgate.net/profile/Chee\_Siew/publication/4116697\_Extreme\_learning\_machine\_A\_new\_learning\_scheme\_of\_feedforward\_neural\_networks/links/00b4952f8672c66db1000000.pdf}
+                      {https://www.researchgate.net/profile/Chee\_Siew/publication/\\4116697\_Extreme\_learning\_machine\_A\_new\_learning\_scheme\_of\_feedforward\\\_neural\_networks/links/00b4952f8672c66db1000000.pdf}}
+       .
  \item Fast to train, work very well in domains where semantic depth is not required.
+ \item Each neuron in the recurrent echo-state network reservoir represents a single non-linear signal response. The echo-state network learns an arbitrary response by
+       fitting a linear combination of these responses to the desired output signal. Analogous to Fourier decomposition where any linear response
+       can be decomposed in frequency plane, as a weighted sum of discrete cosine responses.
+ \item Extreme Learning Machine fits a linear combination of a large reservoir of non-linear responses in a similar way but for feed-forward networks.
+       Activation functions used in the ELM network used can be any mixture of infinitely differentiable functions, e.g. sigmoid, radial basis, sine, cosine,
+       exponential, and many nonregular functions.
 \end{itemize}
 \end{frame}
 

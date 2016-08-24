@@ -24,3 +24,8 @@ https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf
 ## Gradient clipping
 
 https://www.microsoft.com/en-us/research/publication/1-bit-stochastic-gradient-descent-and-application-to-data-parallel-distributed-training-of-speech-dnns/
+
+## What did we learn?
+
+https://www.linkedin.com/pulse/what-i-learned-from-deep-learning-summer-school-2016-hamid-palangi
+

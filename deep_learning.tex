@@ -141,7 +141,7 @@ Non-energy-based Methods & Energy-based Methods \\
 \frametitle{Near-linear Activation Functions}
  \begin{itemize}
   \item Deep neural networks are effective because of non-linear activation functions – Stacking linear
-        layers only reduces to a single linear layer. $ \dots w_2(w_1 X + b_1) + b_2 \dots = wX + b $
+        layers only reduces to a single linear layer. $ \dots w_2(w_1 X + b_1) + b_2 \dots = \dots (w_2 w_1) X + (w_2 b_1 + b_2) \dots = wX + b $
   \item However, non-linearities are challenging to learn. Minimizing the non-linearity has been shown to
         be really useful. Deep neural networks can be trained without unsupervised pre-training if rectifier
         activation functions are used. (otherwise cannot)
@@ -266,9 +266,10 @@ Non-energy-based Methods & Energy-based Methods \\
   \item Further reading, for example:
         \footnote{\href{https://www.linkedin.com/pulse/what-i-learned-from-deep-learning-summer-school-2016-hamid-palangi}
         {https://www.linkedin.com/pulse/what-i-learned-from-deep-\\learning-summer-school-2016-hamid-palangi}}
-  \item The next lectures will be about:
+  \item The next lectures in late 2016 and early 2017 will be about:
   \begin{itemize}
     \item Data encoding / representation
+    \item Neural network structures
     \item TensorFlow and meta-optimization
   \end{itemize}
  \end{itemize}

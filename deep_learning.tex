@@ -109,11 +109,11 @@ Non-energy-based Methods & Energy-based Methods \\
   \item Reducing the number of parameters or degrees of freedom of the model is regularization. Regularization prevents overfitting.
   \item In Convolutional Neural Networks, the weights are identical for each window, and window outputs are max-pooled (sub-sampling) to the next layer.
         This exploits the translational symmetry of the domain, and is often used for images.
-  \item Regularization can also be done by introducing a loss term for weights, L2 norm is often used.
+  \item Regularization can also be done by introducing a loss term for weights (not for biases!), L2 norm is often used.
   \item As always in multiobjective optimization, the factors and slopes of the loss function components are important.
  \end{itemize}
  \begin{displaymath}
-  RegularizedLoss = Loss + \alpha \cdot SquaredWeights^\beta
+  RegularizedLoss = Loss + \frac{\lambda}{2n} \sum\limits_w w^2 
  \end{displaymath}
  \centering{
  \includegraphics[width=0.9\textwidth]{./Typical_cnn.png}

@@ -106,6 +106,21 @@
         limit it to be always non-negative. This also has a rationale from statistical likelihoods.
   \item Generating values from mixture density distributions is done by first picking the distribution index from the set of distributions using the relative weight probabilities.
   \item Then a value is picked from the selected distribution using sampling from that kind of distribution with those parameters.
+  \item Mixture density distributions work especially well for continuous physical signals where the system has several different ``decisions''
+        to make from moment to moment. This corresponds to degrees of freedom in some sense.
+  \item It is not always clear how many distributions you should use. Analogous to K-means clustering.
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Output Representation / Audio}
+ \begin{itemize}
+  \item In audio signals, it has been noted that instead of using mixture density distributions it is better to use one-hot softmax classes for different
+        signal values at a certain time.
+  \item This corresponds to a discrete distribution, and it works better because it is not clear for audio signals how many mixtures one should use.
+  \item To keep the output tractable, the signal levels are squashed from full 16 bit to for example 255 different values using $\mu$ law encoding.
+        \footnote{\href{https://deepmind.com/blog/wavenet-generative-model-raw-audio/}
+                       {https://deepmind.com/blog/wavenet-generative-model-raw-audio/}}
  \end{itemize}
 \end{frame}
 

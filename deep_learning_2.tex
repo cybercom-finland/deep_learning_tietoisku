@@ -57,6 +57,7 @@
    \begin{itemize}
     \item Boolean values, Continuous values
     \item One-hot encoding for encoding exclusive choice
+    \item Encoding time
    \end{itemize}
    \item Output representation
    \begin{itemize}
@@ -76,14 +77,35 @@
 \begin{frame}
 \frametitle{Input Representation}
  \begin{itemize}
-  \item One-hot 
+  \item 
  \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Output Representation}
+\frametitle{Output Representation / Categorical and Class Outputs}
  \begin{itemize}
-  \item 
+  \item Categorical outputs refer to a situation where the output can take one out of a limited set of values. These are used for example in classification tasks where
+        the input signal is classified to represent one of predetermined classes. For example ``cat'' vs. ``dog'', or ``walking'' vs. ``driving''.
+  \item For categorical outputs, one-hot softmax encoding is typically used. In generation, the outputs represent probabilities for picking a specific category.
+  \item Softmax normalizes the sum of the output values to be one, and scales all values to be positive, i.e. forms a proper probability distribution.
+  \item The loss is calculated using cross entropy. In Tensorflow, you skip the softmax layer in the loss function and use the unnormalized outputs (interpreted as log-probabilities)
+        directly with the tf.nn.softmax\_cross\_entropy\_with\_logits function.
+  \item Sometimes the outputs are not mutually exclusive. For example, a photo might contain both a cat and a person. In these cases you normalize each output
+        between 0 and 1 using a sigmoid function. In Tensorflow, you would use tf.nn.sigmoid\_cross\_entropy\_with\_logits function to calculate the loss from raw, unscaled outputs.
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Output Representation / Mixture Density Outputs}
+ \begin{itemize}
+  \item For continuous values, it makes sense to use mixture density distributions, that is, using a weighted mixture of several distributions (e.g. 3 x normal distributions) with
+        parameters (for normal distribution: means and variances) estimated by the network.
+  \item The relative weights are softmaxed to represent a discrete probability distribution, much like categorical outputs above.
+  \item The distribution parameters are normalized to an appropriate range if necessary, for example variance of the normal distribution
+        is typically transformed through exp() function to
+        limit it to be always non-negative. This also has a rationale from statistical likelihoods.
+  \item Generating values from mixture density distributions is done by first picking the distribution index from the set of distributions using the relative weight probabilities.
+  \item Then a value is picked from the selected distribution using sampling from that kind of distribution with those parameters.
  \end{itemize}
 \end{frame}
 

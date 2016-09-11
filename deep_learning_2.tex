@@ -58,6 +58,7 @@
     \item Boolean values, Continuous values
     \item One-hot encoding for encoding exclusive choice
     \item Encoding time
+    \item Local conditioning
    \end{itemize}
    \item Output representation
    \begin{itemize}
@@ -69,6 +70,7 @@
    \begin{itemize}
     \item Abstraction levels
     \item Bottlenecks and compression
+    \item Bonus: Residual and skip connections
    \end{itemize}
   \end{itemize}
  \end{block}
@@ -76,8 +78,26 @@
 
 \begin{frame}
 \frametitle{Input Representation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Input Representation / Local conditioning}
  \begin{itemize}
-  \item 
+  \item How to create networks that associate together low rate text with high rate audio signal?
+  \item These are needed for voice synthesis and speech recognition systems.
+  \item To condition the neural network with another signal requires the signals to be of the same rate.
+  \item Transposed convolution is often used to learn an upsampling for the lower rate signal. ``Deconv'' networks can learn even non-linear upsamplings.
+        \footnote{\href{https://arxiv.org/pdf/1603.07285.pdf}
+                       {https://arxiv.org/pdf/1603.07285.pdf}}
+  \item Transposed convolution or fractional stride convolution is a kind of convolution that outputs larger signals than they are fed.
+  \item These were originally called deconvolutional neural networks, but that is a misnomer, as deconvolution means an inverse operation to convolution,
+        and this is not what transposed convolutions are.
+  \item As the upsampling is learned, the network associates the lower rate signal to the higher rate signal matching the rates together.
+        \footnote{\href{https://arxiv.org/pdf/1606.05328v2.pdf}
+                       {https://arxiv.org/pdf/1606.05328v2.pdf}}
+  \item A soft window can also be used to match the input progresses for separate sequences.
+        \footnote{\href{http://arxiv.org/pdf/1308.0850v5.pdf}
+                       {http://arxiv.org/pdf/1308.0850v5.pdf}}
  \end{itemize}
 \end{frame}
 
@@ -118,16 +138,33 @@
   \item In audio signals, it has been noted that instead of using mixture density distributions it is better to use one-hot softmax classes for different
         signal values at a certain time.
   \item This corresponds to a discrete distribution, and it works better because it is not clear for audio signals how many mixtures one should use.
-  \item To keep the output tractable, the signal levels are squashed from full 16 bit to for example 255 different values using $\mu$ law encoding.
+  \item To keep the output tractable, the signal levels are squashed from full 16 bit to for example 255 different values using $\mu$-law encoding.
         \footnote{\href{https://deepmind.com/blog/wavenet-generative-model-raw-audio/}
                        {https://deepmind.com/blog/wavenet-generative-model-raw-audio/}}
  \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Internal Representation}
+\frametitle{Internal Representation / Feature Space Representation}
  \begin{itemize}
-  \item 
+  \item Interpolation in explicit feature space and transposed convolution:
+        \href{https://www.youtube.com/watch?v=QCSW4isBDL0}{Learning to Generate Chairs with Convolutional Neural Networks}
+  \item Interpolation in implicit feature space:
+        \href{https://arxiv.org/abs/1606.05328}{Conditional Image Generation with PixelCNN Decoders}
+  \item \href{http://deeplearning4j.org/word2vec.html}{Word2Vec}: Learning 100-1000 dimensional embeddings for words based on their context with a 2-layer neural network
+        predicting the current word based on context. For internal representation, interesting applications follow: Brother - Man + Woman = Sister.
+  \item Understanding internal encoding and representation is crucial for interrogating neural networks. See also: \href{http://arxiv.org/pdf/1410.3916v11.pdf}{MemNN}
+        \footnote{\href{http://www.pamitc.org/cvpr15/files/lecun-20150610-cvpr-keynote.pdf}{Yann Le Cunn: What's Wrong With Deep Learning?}}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bonus: Residual and Skip Connections}
+ \begin{itemize}
+  \item Training deep neural networks requires all sorts of tricks, some of which were handled in the previous lecture.
+  \item Current state of the art convolutional networks are in fact trained with backpropagation only, but require additional tricks.
+  \item Residual connections
+  {}
  \end{itemize}
 \end{frame}
 

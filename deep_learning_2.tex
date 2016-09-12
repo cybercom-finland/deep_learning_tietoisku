@@ -57,8 +57,7 @@
   \begin{itemize}
    \item Input representation
    \begin{itemize}
-    \item Boolean values, Continuous values
-    \item One-hot encoding for encoding exclusive choice
+    \item Normalization
     \item Encoding time
     \item Local conditioning
    \end{itemize}
@@ -79,7 +78,33 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Input Representation}
+\frametitle{Input Representation / Normalization}
+ \begin{itemize}
+  \item If a neural network represents a function $ f(\mathbf{x}) = \mathbf{y} $, then input is a multidimensional vector $ \mathbf{x} $.
+  \item Deciding a representation for your input data is important:
+  \item 0/1 flag-like attributes are typically encoded simply as number components on the vector.
+  \item Categories, such as words or letters are encoded as one-hot
+        vectors where all the other components are marked as 0, but the component for the category as 1. Words as one-hot vectors tend to create really large vectors,
+        unknown words cannot be represented, and typographically similar words are not close to each other.
+  \item Continuous values are discretized into sequences. If a value is a continuous value between low and high limits, then a simple normalization between $ (0, 1) $
+        is often in order.
+  \item If a value does not have limits, tanh or sigmoid normalization might be used to clamp the value between $ (0, 1) $ or $(-1, 1) $.
+  \item It is important to normalize the inputs so that they all have similar ranges. Otherwise the training concentrates on the large values only, disregarding the small ones.
+        Also, the meaning of the signal should be somehow evident. If the signal is meaningfully continuous and the meaning comes from passing thresholds, then a continuous
+        encoding is in order. But for example for waveforms and sounds it makes sense to use one-hot encoding.
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Input Representation / Encoding Time}
+ \begin{itemize}
+  \item Fixed-rate sequences are easy for encoding. However, there are lots of data sources that are not fixed-rate.
+  \item Delays and intervals are often important. Encoding delay as a single number works only if it is normalized between 0 and 1. However, this means that
+        differences between short delays are much more significant than differences between long delays.
+  \item Consider using ``tick'' events in variable-rate sequences. An LSTM network can more easily count ticks than associate to ad-hoc normalized delay components.
+        (citation needed, ``trust but verify'')
+  \item I have used such tick events in encoding Flexible Assembly System logs, and they work better than encoding delay as a scalar component.
+ \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -87,19 +112,19 @@
  \begin{itemize}
   \item How to create networks that associate together low rate text with high rate audio signal?
   \item These are needed for voice synthesis and speech recognition systems.
-  \item To condition the neural network with another signal requires the signals to be of the same rate.
+  \item To condition the neural network with another signal requires the signals to be of the same rate. Consider for example lyrics and sound.
   \item Transposed convolution is often used to learn an upsampling for the lower rate signal. ``Deconv'' networks can learn even non-linear upsamplings.
-        \footnote{\href{https://arxiv.org/pdf/1603.07285.pdf}
-                       {https://arxiv.org/pdf/1603.07285.pdf}}
+        \footnote{\href{https://arxiv.org/abs/1603.07285}
+                       {A guide to convolution arithmetic for deep learning}}
   \item Transposed convolution or fractional stride convolution is a kind of convolution that outputs larger signals than they are fed.
-  \item These were originally called deconvolutional neural networks, but that is a misnomer, as deconvolution means an inverse operation to convolution,
+  \item These networks were originally called deconvolutional neural networks, but that is a misnomer, as deconvolution means an inverse operation to convolution,
         and this is not what transposed convolutions are.
   \item As the upsampling is learned, the network associates the lower rate signal to the higher rate signal matching the rates together.
-        \footnote{\href{https://arxiv.org/pdf/1606.05328v2.pdf}
-                       {https://arxiv.org/pdf/1606.05328v2.pdf}}
-  \item A soft window can also be used to match the input progresses for separate sequences.
-        \footnote{\href{http://arxiv.org/pdf/1308.0850v5.pdf}
-                       {http://arxiv.org/pdf/1308.0850v5.pdf}}
+        \footnote{\href{https://arxiv.org/abs/1606.05328v2}
+                       { Conditional Image Generation with PixelCNN Decoders}}
+  \item A soft, learned window can also be used to match the input window progress for separate sequences.
+        \footnote{\href{http://arxiv.org/abs/1308.0850v5}
+                       { Generating Sequences With Recurrent Neural Networks}}
  \end{itemize}
 \end{frame}
 
@@ -142,7 +167,7 @@
   \item This corresponds to a discrete distribution, and it works better because it is not clear for audio signals how many mixtures one should use.
   \item To keep the output tractable, the signal levels are squashed from full 16 bit to for example 255 different values using $\mu$-law encoding.
         \footnote{\href{https://deepmind.com/blog/wavenet-generative-model-raw-audio/}
-                       {https://deepmind.com/blog/wavenet-generative-model-raw-audio/}}
+                       {WaveNet: A Generative Model for Raw Audio}}
  \end{itemize}
 \end{frame}
 
@@ -154,6 +179,7 @@
         \href{https://www.youtube.com/watch?v=QCSW4isBDL0}{Learning to Generate Chairs with Convolutional Neural Networks}
   \item Interpolation in implicit feature space:
         \href{https://arxiv.org/abs/1606.05328}{Conditional Image Generation with PixelCNN Decoders}
+  \item Internal representation for text allows arithmetic in the meaning space.
   \item \href{http://deeplearning4j.org/word2vec.html}{Word2Vec}: Learning 100-1000 dimensional embeddings for words based on their context with a 2-layer neural network
         predicting the current word based on context. For internal representation, interesting applications follow: Brother - Man + Woman = Sister.
   \item Understanding internal encoding and representation is crucial for interrogating neural networks. See also: \href{http://arxiv.org/pdf/1410.3916v11.pdf}{MemNN}
@@ -166,8 +192,12 @@
  \begin{itemize}
   \item Training deep neural networks requires all sorts of tricks, some of which were handled in the previous lecture.
   \item Current state of the art convolutional networks are in fact trained with backpropagation only, but require additional tricks.
-  \item Residual connections
-  {}
+  \item In deep learning, naive backpropagation struggles in pushing back the loss through the layers, and rather uses the biases to make bets, driving the weights to zero.
+        It causes the information to stop flowing from input to output.
+  \item Residual connections are connections that skip one layer in an additive fashion.
+        The input of a unit is simply added to the output also. Sometimes a rectifier activation is added after the summation.
+        This propagates the loss gradients backwards better during training, and information forwards better during generation.
+        \footnote{\href{https://arxiv.org/abs/1512.03385}{ Deep Residual Learning for Image Recognition}}
  \end{itemize}
 \end{frame}
 

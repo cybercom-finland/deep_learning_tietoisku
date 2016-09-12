@@ -27,9 +27,9 @@
 \begin{itemize}
  \item Deep learning refers to deep neural networks. 1990s networks were shallow, and hence relatively useless.
  \item Neural networks are just complex non-linear models with lots of parameters. They are formed by layers of neurons, successive operations
-       with an a linear combination of inputs from the previous layer and an activation function.
+       with an a linear combination of inputs from the previous layer and a non-linear activation function.
  \item In general, you always need a training set, a test set and a validation set. Training set is used to tune parameters, test set is used to tune hyperparameters,
-       and validation set is used to check that the model does not overfit the test set. Boottrapping can be used to validate the data sectioning.
+       and validation set is used to check that the model does not overfit the test set. Bootstrapping can be used to validate the data sectioning.
  \item Underfitting = high bias, overfitting = high variance
 \end{itemize}
 
@@ -46,6 +46,8 @@
  \item A good platform to use for neural network experimentation is Google's TensorFlow, based on Python.
  \item Data representation is critical in neural networks, in the input representation, in the output representation (and by extension in defining the loss function), and
        also in the internal neuron representation.
+ \item Training a neural network leads to neural layers forming a mapping from input data vector space through feature filters to higher level non-linear feature spaces and
+       ultimately to semantic spaces.
 \end{itemize}
 \end{frame}
 
@@ -147,6 +149,7 @@
 \begin{frame}
 \frametitle{Internal Representation / Feature Space Representation}
  \begin{itemize}
+  \item Interpolating representations in feature and semantic spaces generate cognitive morphings.
   \item Interpolation in explicit feature space and transposed convolution:
         \href{https://www.youtube.com/watch?v=QCSW4isBDL0}{Learning to Generate Chairs with Convolutional Neural Networks}
   \item Interpolation in implicit feature space:

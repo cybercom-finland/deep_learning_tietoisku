@@ -57,7 +57,9 @@
   \begin{itemize}
    \item Input representation
    \begin{itemize}
-    \item Normalization
+    \item Feature Engineering \& Dimensionality Reduction
+    \item Trivial Representation \& Normalization
+    \item Missing values
     \item Encoding time
     \item Local conditioning
    \end{itemize}
@@ -78,10 +80,37 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Input Representation / Normalization}
+\frametitle{Input Representation / Feature Engineering \& Dimensionality Reduction}
+ \begin{itemize}
+  \item Dimensionality reduction is needed for cases where the signal is very high-dimensional (and possibly also high-bandwidth) and can be compressed
+        without losing any meaningful information. That means removing correlating variables and variables with inconsequential variance. Note that low variance might also
+        mean you need to normalize, so ``inconsequential'' does not mean exactly the same as ``low''.
+  \item In the history, feature engineering was a pretty much the only way to make neural networks to do anything meaningful. Technically it means using higher brain functions
+        to invent a coding for the signal that compresses the information heavily, leaving in only the features that are deemed central for the task at hand.
+  \footnote{\href{http://machinelearningmastery.com/discover-feature-engineering-how-to-\\engineer-features-and-how-to-get-good-at-it/}
+                 {http://machinelearningmastery.com/discover-feature-engineering-how-to-engineer-features-and-how-to-get-good-at-it/}}
+  \item If you create a model that uses a reduced signal, then your model will be simpler and potentially more efficient.
+ \end{itemize} 
+\end{frame}
+
+\begin{frame}
+\frametitle{Input Representation / Feature Engineering \& Dimensionality Reduction}
+ \begin{itemize}
+  \item Feature selection is an art which requires understanding the application domain as well as understanding machine learning.
+  \item Commonly used methods for dimensionality reduction is Principal Component Analysis, where you find the most significant eigenvector basis with few components for the data
+        so that the loss in projecting the signal to that subspace is small.
+  \footnote{\href{http://www.scholarpedia.org/article/Eigenfaces}
+                 {http://www.scholarpedia.org/article/Eigenfaces}}
+  \item Nowadays as computers are more efficient, feature engineering is not anymore in the central role it used to be in the past. However, it is good to understand that there
+        is no such thing as ``raw encoding'', and all data must be represented and quantitized in some way, both in computer memories and in brains.
+ \end{itemize} 
+\end{frame}
+
+\begin{frame}
+\frametitle{Input Representation / Trivial Representation \& Normalization}
  \begin{itemize}
   \item If a neural network represents a function $ f(\mathbf{x}) = \mathbf{y} $, then input is a multidimensional vector $ \mathbf{x} $.
-  \item Deciding a representation for your input data is important:
+  \item The data is represented in a categorical fashion or as continuous values.
   \item 0/1 flag-like attributes are typically encoded simply as number components on the vector.
   \item Categories, such as words or letters are encoded as one-hot
         vectors where all the other components are marked as 0, but the component for the category as 1. Words as one-hot vectors tend to create really large vectors,
@@ -172,6 +201,24 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{Output Representation / Missing Values}
+ \begin{itemize}
+  \item Sometimes target output data is missing values. For example, you have an image segmentation application that labels regions in the image as trees or cats.
+        Your training output data has some regions marked as belonging to a specific label in rough brush strokes, or ``scribbles''. Most of the area in the image is not labelled.
+  \footnote{\href{http://arxiv.org/pdf/1604.05144v1.pdf}
+                 {ScribbleSup: Scribble-Supervised Convolutional Networks for Semantic Segmentation}}
+  \item Related terms: Weakly supervised learning, partial labels, superpixel segmentation.
+  \footnote{\href{http://www.cv-foundation.org/openaccess/content\_cvpr\_2015/papers/Xu\_Learning\_to\_Segment\_2015\_CVPR\_paper.pdf}
+       {Constrained Convolutional Neural Networks for Weakly Supervised Segmentation}}
+  \item Superpixel segmentation means clustering the pixels in the 5-dimensional color+spatial space.
+  \item Unmarked pixels are marked by propagating supervised values on the superpixel,
+        but also propagating pixelwise predictions of the neural network backwards.
+  \item Handling of missing values in general depends on the application.
+        
+ \end{itemize} 
+\end{frame}
+
+\begin{frame}
 \frametitle{Internal Representation / Feature Space Representation}
  \begin{itemize}
   \item Interpolating representations in feature and semantic spaces generate cognitive morphings.
@@ -197,7 +244,7 @@
   \item Residual connections are connections that skip one layer in an additive fashion.
         The input of a unit is simply added to the output also. Sometimes a rectifier activation is added after the summation.
         This propagates the loss gradients backwards better during training, and information forwards better during generation.
-        \footnote{\href{https://arxiv.org/abs/1512.03385}{ Deep Residual Learning for Image Recognition}}
+        \footnote{\href{https://arxiv.org/abs/1512.03385}{Deep Residual Learning for Image Recognition}}
  \end{itemize}
 \end{frame}
 
@@ -205,6 +252,7 @@
 \frametitle{What did we learn?}
  \begin{itemize}
   \item To make neural networks learn effectively, the data must be represented in a suitable fashion.
+  \item Also, thanks to Jussi Lyytinen, who helped with the data science and statistics perspective.
  \end{itemize}
 \end{frame}
 

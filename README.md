@@ -6,3 +6,5 @@ See: https://www.meetup.com/Cybercom-Tietoiskut/
 [Presentation 2](https://github.com/cybercom-finland/deep_learning_tietoisku/raw/master/deep_learning.pdf)
 
 [Presentation 3](https://github.com/cybercom-finland/deep_learning_tietoisku/raw/master/deep_learning_2.pdf)
+
+[Presentation 4](https://github.com/cybercom-finland/deep_learning_tietoisku/raw/master/deep_learning_3.pdf)

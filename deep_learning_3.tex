@@ -43,7 +43,7 @@
 \end{column}
 \begin{column}{0.5\textwidth}
  
- \textcolor{blue}{wavenet/model.py\#L97}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L97}{\textcolor{blue}{wavenet/model.py\#L97}}
  
  \begin{verbnobox}[\tiny]
 with tf.variable_scope('causal_layer'):
@@ -56,7 +56,7 @@ with tf.variable_scope('causal_layer'):
          self.residual_channels])
  \end{verbnobox}
  
- \textcolor{blue}{wavenet/model.py\#L172}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L172}{\textcolor{blue}{wavenet/model.py\#L172}}
  
  \begin{verbnobox}[\tiny]
 def _create_causal_layer(self, input_batch):
@@ -84,7 +84,7 @@ def _create_causal_layer(self, input_batch):
 \end{column}
 \begin{column}{0.5\textwidth}
  
- \textcolor{blue}{wavenet/ops.py\#L27}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/ops.py\#L27}{\textcolor{blue}{wavenet/ops.py\#L27}}
  
  \begin{verbnobox}[\tiny]
 def time_to_batch(value, dilation, name=None):
@@ -137,7 +137,7 @@ def causal_conv(value, filter_, dilation, name='causal_conv'):
 \end{column}
 \begin{column}{0.5\textwidth}
  
- \textcolor{blue}{wavenet/model.py\#L300}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L300}{\textcolor{blue}{wavenet/model.py\#L300}}
  
  \begin{verbnobox}[\tiny]
   # Add all defined dilation layers.
@@ -162,7 +162,7 @@ def causal_conv(value, filter_, dilation, name='causal_conv'):
 
 \end{column}
 \begin{column}{0.5\textwidth}
- \textcolor{blue}{wavenet/model.py\#L181}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L181}{\textcolor{blue}{wavenet/model.py\#L181}}
  
  \begin{verbnobox}[\tiny]
 def _create_dilation_layer(self, input_batch, layer_index, dilation):
@@ -244,7 +244,7 @@ The ibab implementation assumes that the number of channels in the second to fin
 \end{column}
 \begin{column}{0.5\textwidth}
  
-\textcolor{blue}{wavenet/model.py\#L127}
+\href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L127}{\textcolor{blue}{wavenet/model.py\#L127}}
  
 \begin{verbnobox}[\tiny]
     current['dense'] = create_variable(
@@ -259,7 +259,7 @@ The ibab implementation assumes that the number of channels in the second to fin
             self.skip_channels])
 \end{verbnobox}
 
-\textcolor{blue}{wavenet/model.py\#L212}
+\href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L212}{\textcolor{blue}{wavenet/model.py\#L212}}
  
  \begin{verbnobox}[\tiny]
     # The 1x1 conv to produce the residual output
@@ -288,7 +288,7 @@ The ibab implementation assumes that the number of channels in the second to fin
 \end{column}
 \begin{column}{0.5\textwidth}
  
- \textcolor{blue}{wavenet/model.py\#L155}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L155}{\textcolor{blue}{wavenet/model.py\#L155}}
  
 \begin{verbnobox}[\tiny]
     current['postprocess1'] = create_variable(
@@ -299,7 +299,7 @@ The ibab implementation assumes that the number of channels in the second to fin
         [1, self.skip_channels, self.quantization_channels])
 \end{verbnobox}
 
- \textcolor{blue}{wavenet/model.py\#L324}
+ \href{https://github.com/ibab/tensorflow-wavenet/blob/master/wavenet/model.py\#L324}{\textcolor{blue}{wavenet/model.py\#L324}}
  
  \begin{verbnobox}[\tiny]
     w1 = self.variables['postprocessing']['postprocess1']

@@ -43,6 +43,19 @@
 \end{column}
 \begin{column}{0.5\textwidth}
  
+ \textcolor{blue}{wavenet/model.py\#L97}
+ 
+ \begin{verbnobox}[\tiny]
+with tf.variable_scope('causal_layer'):
+        #... SCALAR INPUT STUFF ...
+        #... HARD TO READ STUFF COMING DOWN TO (modified for readability): ...
+    layer['filter'] = create_variable(
+        'filter',
+        [self.filter_width,
+         self.quantization_channels,
+         self.residual_channels])
+ \end{verbnobox}
+ 
  \textcolor{blue}{wavenet/model.py\#L172}
  
  \begin{verbnobox}[\tiny]
@@ -172,7 +185,7 @@ def _create_dilation_layer(self, input_batch, layer_index, dilation):
         conv_filter = causal_conv(input_batch, weights_filter, dilation)
         conv_gate = causal_conv(input_batch, weights_gate, dilation)
 
-        ... CODE FOR OPTIONAL BIASES ...
+            #... CODE FOR OPTIONAL BIASES ...
 
         out = tf.tanh(conv_filter) * tf.sigmoid(conv_gate)
 
@@ -186,7 +199,7 @@ def _create_dilation_layer(self, input_batch, layer_index, dilation):
         skip_contribution = tf.nn.conv1d(
             out, weights_skip, stride=1, padding="SAME", name="skip")
 
-        ... CODE FOR OPTIONAL BIASES / HISTOGRAM OUTPUT ...
+            #... CODE FOR OPTIONAL BIASES / HISTOGRAM OUTPUT ...
         
         return skip_contribution, input_batch + transformed
  \end{verbnobox}
@@ -201,7 +214,32 @@ def _create_dilation_layer(self, input_batch, layer_index, dilation):
 \begin{columns}
 \begin{column}{0.5\textwidth}
  
-\includegraphics[width=0.9\textwidth]{./dl3_images/1x1_convolutions.png}
+\includegraphics[width=0.9\textwidth]{./dl3_images/1x1_convolutions_1.png}
+
+\end{column}
+\begin{column}{0.5\textwidth}
+{\tiny
+\begin{itemize}
+ \item It is important to follow the channel number per ``pixel`` in every part of the diagram. Channel number can be intuitively thought as a color component number for graphical
+signals, or number of per-pixel features for audio signals. All the convolutions potentially change the channel number.
+ \item 1x1 convolutions are needed to convert the numbers of channels from one part of the diagram to another. They are single pixel, context independent fully-connected matrices mapping
+n-dimensional pixel to m-dimensional pixel with learnable weights.
+ \item Note that all other operations except convolutions work for each channel independently and do not affect the numbers of channels.
+ \item The only channel number mentioned in the original paper is the number of µ-law quantization channels (256), the other parameters are left open.
+The ibab implementation assumes that the number of channels in the second to final 1x1 convolution does not change, and stays the same (skip\_channels=512). This does not have to be so.
+\end{itemize}
+}
+\end{column}
+\end{columns} 
+ 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{1X1 Convolutions (dilation layer)}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+ 
+\includegraphics[width=0.9\textwidth]{./dl3_images/1x1_convolutions_2.png}
 
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -245,7 +283,7 @@ def _create_dilation_layer(self, input_batch, layer_index, dilation):
 \begin{columns}
 \begin{column}{0.5\textwidth}
  
-\includegraphics[width=0.9\textwidth]{./dl3_images/1x1_convolutions.png}
+\includegraphics[width=0.9\textwidth]{./dl3_images/1x1_convolutions_3.png}
 
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -266,13 +304,13 @@ def _create_dilation_layer(self, input_batch, layer_index, dilation):
  \begin{verbnobox}[\tiny]
     w1 = self.variables['postprocessing']['postprocess1']
     w2 = self.variables['postprocessing']['postprocess2']
-    ... CODE FOR OPTIONAL BIASES / HISTOGRAM OUTPUT ...
+        #... CODE FOR OPTIONAL BIASES / HISTOGRAM OUTPUT ...
     # We skip connections from the outputs of each layer, adding them
     # all up here.
     total = sum(outputs)
     transformed1 = tf.nn.relu(total)
     conv1 = tf.nn.conv1d(transformed1, w1, stride=1, padding="SAME")
-        ... CODE FOR OPTIONAL BIASES ...
+        #... CODE FOR OPTIONAL BIASES ...
     transformed2 = tf.nn.relu(conv1)
     conv2 = tf.nn.conv1d(transformed2, w2, stride=1, padding="SAME")
 \end{verbnobox}

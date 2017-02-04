@@ -31,7 +31,7 @@
  \begin{enumerate}
   \item Blockchain is a sequence of records, or blocks, so that each block contains a hash digest of the previous block (which recursively contains the hash digest of the previous block and so on).
   \item A consensus mechanism with rules to determine which blocks are accepted to be the next block in the blockchain. Many solutions such as proof-of-work, proof-of-stake, proof-of-burn,
-        \href{https://github.com/evernym/plenum}{Plenum Byzantine Fault Tolerance}, and hybrids.
+        Practical Byzantine Fault Tolerance, and hybrids.
   \item A discovery and broadcast infrastructure to relay transactions and blocks to peers and miners.
   \item Application-specific public key or other cryptography to prove identities of parties in transactions, wallets and so on.
   \item Microcode used to define the transaction semantics or smart contracts, such as \href{https://en.bitcoin.it/wiki/Script}{Bitcoin Script}, \href{http://solidity.readthedocs.io/en/latest/}{Solidity}
@@ -54,10 +54,6 @@
  \caption{Bitcoin Maximalism vs. The Reality}
 \end{figure}
 
-\end{frame}
-
-\begin{frame}
-\frametitle{Byzantine Fault Tolerance}
 \end{frame}
 
 \begin{frame}
@@ -125,6 +121,17 @@
  \item Proof-of-work algorithms include for example Bitcoin double SHA256, or Litecoin Scrypt.
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Byzantine Fault Tolerance}
+\begin{itemize}
+ \item Byzantine Fault Tolerance refers to a general game theoretic mathematical problem where distributed parties try to achieve consensus in spite of unreliable messaging and hostile actors.
+ \item There are several algorithms and implementations with different characteristics.
+ \item Practical Byzantine Fault Tolerance algorithm useful for consortium blockchains, but cannot be used for open blockchains.
+ \item Byzantine Fault Tolerance algorithms do not generally consider an open system where new actors can join at will, and therefore they implicitly assume a kind of a Proof-of-Stake through association to the group.
+ \item These algorithms generally need a centralized identity management to prevent a Sybil attack. Although it could be said that the centralized identity manager could freely perform a Sybil attack in these systems.
+\end{itemize}
 
 \end{frame}
 

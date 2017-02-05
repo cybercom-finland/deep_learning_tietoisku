@@ -116,7 +116,15 @@
 \frametitle{Proof of Work}
 
 \begin{itemize}
- \item Proof-of-work algorithms include for example Bitcoin double SHA256, or Litecoin Scrypt.
+ \item The point of Proof-of-Work is to prove that you have spent real resources in generating the block.
+ \item Proof-of-work algorithms include for example Bitcoin double SHA256, or Dogecoin/Litecoin Scrypt.
+ \item Bitcoin includes a double SHA-256 hash of the block in the blocks, and the block is only accepted if the hash value is lower than the difficulty limit. Hence, block hashes start with lots of zeros, for example:
+       0x0000000000000000012fdce7dd73fddb087e66f4f6bb9672667b854282855669 for \href{https://blockexplorer.com/block/0000000000000000012fdce7dd73fddb087e66f4f6bb9672667b854282855669}{the block \#451676}
+ \item Bitcoin Proof-of-Work does not require a lot of memory and can be easily implemented as an ASIC chip $ \rightarrow $ all miners are based on cheap ASICs now, and the hashrate is basically limited by energy costs.
+       These ASICs are special-purpose machines and cannot be used for any other purpose than mining Bitcoins.
+ \item Litecoin and several other coins use Scrypt algoritm as Proof-of-Work. This algorithm requires more memory (128 kB to match a typical CPU L2 cache), and memory is difficult to implement on an ASIC.
+       Litecoin and Dogecoin can be mined with general purpose GPUs and even CPUs, and even in browsers. This has an effect of moving the bottleneck towards more expensive, but ubuquitous general purpose hardware
+       from simple energy use.
 \end{itemize}
 
 
@@ -176,6 +184,37 @@
  \includegraphics[width=6 cm,keepaspectratio=true]{./blockchain_images/chaincodes.png}
  \caption{Chaincode Languages}
 \end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Diamond Supply Chain}
+
+\begin{figure}[tb]
+ \centering
+ \includegraphics[width=11 cm,keepaspectratio=true]{./blockchain_images/diamond.png}
+ \caption{Diamond Supply Chain}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Guardtime KSI}
+\begin{itemize}
+ \item Estonian Guardtime offers a timestamp-hashing service based on Hash Calendar, which is a special type of a Merkle tree.
+ \item Linked timestamping ties specific signing events together with time so that they cannot be altered without invalidating the whole chain.
+ \item The service can be used to sign any data hash to irrevocably tie it to a specific time.
+ \item The signature can then be used to prove that the hashed document existed at a claimed time.
+ \item Applications include for example:
+ \begin{itemize}
+   \item tamper-proofing logs, as a tampered log entry would not have a valid timestamp signature, as it did not exist at the claimed time.
+   \item Providing proof that a specific event happened at a certain point of time (not later than a given time).
+ \end{itemize}
+ \item The infrastructure is secured by using periodical hash calendar roots published through widely witnessed media such as Financial Times and Twitter.
+\begin{figure}[tb]
+ \centering
+ \includegraphics[width=3 cm,keepaspectratio=true]{./blockchain_images/widely_witnessed_media.png}
+\end{figure}
+\end{itemize}
 
 \end{frame}
 

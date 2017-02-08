@@ -206,11 +206,25 @@
 \begin{frame}
 \frametitle{Comparison of Chaincode Languages}
 
-\begin{figure}[tb]
- \centering
- \includegraphics[width=6 cm,keepaspectratio=true]{./blockchain_images/chaincodes.png}
- \caption{Chaincode Languages}
-\end{figure}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+Constrained
+\begin{itemize}
+ \item Bitcoin Script
+ \item Allow complex transactions (e.g. multisig), but no smart contracts or general purpose computing.
+ \item The execution time is limited to a specific maximum per transaction.
+ \item A special transaction set limits the utility of the blockchain to a specific application.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+Turing Complete
+\begin{itemize}
+ \item Hyperledger Chaincode, Ethereum Solidity
+ \item Allow smart contracts and general purpose computing. Even \href{https://en.wikipedia.org/wiki/Synereo}{\textcolor{blue}{``world computer''}}.
+ \item Requires either transaction gas, a closed set of trusted peers, or whitelisted (non-Turing complete) transaction patterns.
+\end{itemize}
+\end{column}
+\end{columns}
 
 \end{frame}
 

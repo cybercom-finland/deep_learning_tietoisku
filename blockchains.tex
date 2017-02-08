@@ -5,6 +5,9 @@
 \usepackage{hyperref}
 \usepackage{textpos}
 \usepackage{verbatimbox}
+%\usepackage{animate}
+\usepackage{graphicx}
+\usepackage{multimedia}
 \usetheme{Copenhagen}
 
 \title{Blockchains}
@@ -102,14 +105,29 @@
 \begin{frame}
 \frametitle{Consensus Mechanisms}
 
+\begin{columns}
+\begin{column}{0.9\textwidth}
+
 \begin{itemize}
  \item Consensus is inherently a game theoretic concept in Byzantine systems, because the peers can try to cheat.
  \item In open ecosystems it must be made economically infeasible to break the rules or the goals of the system. This leads to the requirement of having a cryptocurrency built into the system.
        In practice, a validating peer gains cryptocurrency for processing transactions, and this cryptocurrency only has value if the whole system works.
- \item A Bitcoin data center is under construction in China designed to consume 135 MW of power. This is for 7 transactions per second for the whole Bitcoin network for the current block size limit of 1 MB.
-       The Chinese data center energy consumption is roughly 5 kilograms of coal equivalent per second.
+ \item The Bitcoin network can process the maximum of 7 transactions per second with the current block size limit of 1 MB.
+ \item Calculating Bitcoin mining hashes requires about 1 W of power for 1 GH/s of computation for the most energy efficient ASIC implementations.
+ \item The current hashrate of the Bitcoin network of 3,051,683,778 GH/s translates to a power of about 3 GW.
+ \item In standard reindeers of 200 kg, this amounts to burning 2.5 reindeers of equivalent coal every second.
+ \item A new Bitcoin data center is under construction in China designed to consume 135 MW of power.
  \item In closed consortiums, it is feasible to get rid of peers behaving incorrectly, so expensive proof-operations can be avoided.
 \end{itemize}
+\end{column}
+\begin{column}{0.1\textwidth}
+% For Adobe Reader
+%%\animategraphics[autoplay,loop,width=1cm]{10}{blockchain_images/porot-}{0}{9}
+% For Linux Okular
+
+\movie[width=1cm,height=5cm]{click}{./blockchain_images/porot.mp4}
+\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}

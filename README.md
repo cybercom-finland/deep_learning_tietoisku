@@ -10,6 +10,7 @@ See: https://www.meetup.com/Cybercom-Tietoiskut/
 [Presentation 4](https://github.com/cybercom-finland/deep_learning_tietoisku/raw/master/deep_learning_3.pdf)
 
 [Presentation 5: Blockchains](https://github.com/cybercom-finland/deep_learning_tietoisku/raw/master/blockchains.pdf)
+Note: If you see "click" text on the presentation, it means an embedded video, which only works on Okular on Linux.
 
 Copyright: Cybercom 2017
 

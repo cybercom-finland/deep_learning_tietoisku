@@ -8,6 +8,7 @@
 %\usepackage{animate}
 \usepackage{graphicx}
 \usepackage{multimedia}
+\usepackage{pdfpages}
 \usetheme{Copenhagen}
 
 \title{Blockchains}
@@ -89,16 +90,12 @@
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Comparison of Consensus Methods}
 
-\begin{figure}[tb]
- \centering
- \includegraphics[width=8 cm,keepaspectratio=true]{./blockchain_images/comparison.png}
- \caption{Consensus Methods}
-\end{figure}
 
-\end{frame}
+{
+\setbeamercolor{background canvas}{bg=}
+\includepdf[pages=1-5]{./blockchain_images/Blockchain-visualisoinnit2.pdf}
+}
 
 \begin{frame}
 \frametitle{Consensus Mechanisms – Starting from Bitcoin}

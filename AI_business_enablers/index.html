@@ -8,44 +8,47 @@
 <script>
 
 const segments = [
-    {id: "is", label: "Industrial"},
+    {id: "hc", label: "Healthcare"},
+    {id: "cs", label: "Consumer"},
     {id: "ms", label: "Media"},
     {id: "gs", label: "Government"},
-    {id: "cs", label: "Consumer"},
-    {id: "coms", label: "Commerce"},
     {id: "fins", label: "Financial"},
-    {id: "cons", label: "Construction"},
     {id: "mil", label: "Military"},
+    {id: "coms", label: "Commerce"},
+    {id: "is", label: "Industrial"},
+    {id: "cons", label: "Construction"},
     {id: "l", label: "Logistics"},
-    {id: "hc", label: "Healthcare"}];
+];
 
 const themes = [
+    {id: "robjourn", label: "Robot journalism"},
+    {id: "pmed", label: "Personalized medicine"},
+    {id: "cur", label: "Data curation"},
     {id: "cui", label: "Conversational UI"},
     {id: "pass", label: "Personal assistants"},
-    {id: "pmed", label: "Personalized medicine"},
-    {id: "robjourn", label: "Robot journalism"},
-    {id: "cur", label: "Data curation"},
-    {id: "pm", label: "Predictive maintenance"},
-    {id: "sc", label: "Smart city"},
-    {id: "sa", label: "Situational awareness"},
-    {id: "db", label: "Dashboards"},
-    {id: "rec", label: "Recommendations"},
-    {id: "popt", label: "Process optimization"},
-    {id: "risk", label: "Risk analysis"},
-    {id: "drone", label: "Robotics / drones"},
+    {id: "am", label: "Automatic moderation"},
     {id: "rpa", label: "Robotic Process Automation"},
     {id: "hm", label: "Human-machine collaboration"},
-    {id: "am", label: "Automatic moderation"}];
+    {id: "risk", label: "Risk analysis"},
+    {id: "rec", label: "Recommendations"},
+    {id: "sa", label: "Situational awareness"},
+    {id: "pm", label: "Predictive maintenance"},
+    {id: "drone", label: "Robotics / drones"},
+    {id: "sc", label: "Smart city"},
+    {id: "db", label: "Dashboards"},
+    {id: "popt", label: "Process optimization"},
+];
 
 const techs = [
     {id: "sum", label: "Summarization"},
     {id: "cc", label: "Cognitive computing"},
-    {id: "opt", label: "Optimization / Control"},
-    {id: "cf", label: "Collaborative filtering"},
     {id: "nlp", label: "Natural language processing"},
     {id: "rl", label: "Reinforcement learning"},
+    {id: "cf", label: "Collaborative filtering"},
     {id: "vis", label: "Machine vision"},
-    {id: "an", label: "Analytics"}];
+    {id: "an", label: "Analytics"},
+    {id: "opt", label: "Optimization / Control"},
+];
 
 const edges = [
     ["is", "pm"],

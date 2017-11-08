@@ -1,0 +1,212 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.5/cytoscape.min.js"></script>
+</head>
+<body>
+
+<script>
+
+const segments = [
+    {id: "is", label: "Industrial"},
+    {id: "ms", label: "Media"},
+    {id: "gs", label: "Government"},
+    {id: "cs", label: "Consumer"},
+    {id: "coms", label: "Commerce"},
+    {id: "fins", label: "Financial"},
+    {id: "cons", label: "Construction"},
+    {id: "mil", label: "Military"},
+    {id: "l", label: "Logistics"},
+    {id: "hc", label: "Healthcare"}];
+
+const themes = [
+    {id: "cui", label: "Conversational UI"},
+    {id: "pass", label: "Personal assistants"},
+    {id: "pmed", label: "Personalized medicine"},
+    {id: "robjourn", label: "Robot journalism"},
+    {id: "cur", label: "Data curation"},
+    {id: "pm", label: "Predictive maintenance"},
+    {id: "sc", label: "Smart city"},
+    {id: "sa", label: "Situational awareness"},
+    {id: "db", label: "Dashboards"},
+    {id: "rec", label: "Recommendations"},
+    {id: "popt", label: "Process optimization"},
+    {id: "risk", label: "Risk analysis"},
+    {id: "drone", label: "Robotics / drones"},
+    {id: "rpa", label: "Robotic Process Automation"},
+    {id: "hm", label: "Human-machine collaboration"},
+    {id: "am", label: "Automatic moderation"}];
+
+const techs = [
+    {id: "sum", label: "Summarization"},
+    {id: "cc", label: "Cognitive computing"},
+    {id: "opt", label: "Optimization / Control"},
+    {id: "cf", label: "Collaborative filtering"},
+    {id: "nlp", label: "Natural language processing"},
+    {id: "rl", label: "Reinforcement learning"},
+    {id: "vis", label: "Machine vision"},
+    {id: "an", label: "Analytics"}];
+
+const edges = [
+    ["is", "pm"],
+    ["is", "popt"],
+    ["is", "sa"],
+    ["is", "db"],
+    ["is", "drone"],
+    ["is", "hm"],
+    ["coms", "cui"],
+    ["coms", "rec"],
+    ["coms", "db"],
+    ["gs", "cui"],
+    ["gs", "cur"],
+    ["gs", "sc"],
+    ["gs", "rpa"],
+    ["cs", "cui"],
+    ["cs", "pass"],
+    ["cs", "drone"],
+    ["cs", "pmed"],
+    ["ms", "robjourn"],
+    ["ms", "cur"],
+    ["ms", "sa"],
+    ["ms", "rpa"],
+    ["ms", "hm"],
+    ["ms", "am"],
+    ["fins", "cui"],
+    ["fins", "risk"],
+    ["fins", "rpa"],
+    ["fins", "hm"],
+    ["cons", "drone"],
+    ["mil", "sa"],
+    ["mil", "risk"],
+    ["mil", "drone"],
+    ["mil", "hm"],
+    ["l", "popt"],
+    ["l", "sc"],
+    ["l", "sa"],
+    ["l", "db"],
+    ["l", "drone"],
+    ["l", "rpa"],
+    ["hc", "pmed"],
+    ["hc", "cur"],
+
+    ["robjourn", "sum"],
+    ["cui", "cc"],
+    ["pass", "cc"],
+    ["pmed", "cc"],
+    ["hm", "cc"],
+    ["robjourn", "cc"],
+    ["cur", "cc"],
+    ["pm", "cc"],
+    ["cui", "nlp"],
+    ["pass", "nlp"],
+    ["pmed", "nlp"],
+    ["robjourn", "nlp"],
+    ["cur", "nlp"],
+    ["sa", "nlp"],
+    ["risk", "nlp"],
+    ["rpa", "nlp"],
+    ["hm", "nlp"],
+    ["am", "nlp"],
+    ["cui", "rl"],
+    ["pass", "rl"],
+    ["rec", "rl"],
+    ["drone", "rl"],
+    ["hm", "rl"],
+    ["am", "rl"],
+    ["pass", "vis"],
+    ["sc", "vis"],
+    ["sa", "vis"],
+    ["drone", "vis"],
+    ["rpa", "vis"],
+    ["hm", "vis"],
+    ["db", "an"],
+    ["pm", "an"],
+    ["risk", "an"],
+    ["sa", "an"],
+    ["sc", "an"],
+    ["popt", "an"],
+    ["popt", "opt"],
+    ["drone", "opt"],
+    ["sc", "opt"],
+    ["rec", "cf"],
+    ["am", "cf"]
+];
+const layoutPadding = 50;
+
+$(function() {
+  var idMap = segments.reduce((map, v) => {
+      map[v.id] = v.label;
+      return map;
+  }, {});
+  idMap = themes.reduce((map, v) => {
+      map[v.id] = v.label;
+      return map;
+  }, idMap);
+  idMap = techs.reduce((map, v) => {
+      map[v.id] = v.label;
+      return map;
+  }, idMap);
+  
+  // const csv = edges.map(e => idMap[e[0]] + "," + idMap[e[1]] + "</br>\n");
+  
+  var y = -400;
+  const s = segments.map(s => {
+    y = y + 800/segments.length;
+    return {id: s.id, label: s.label, group: 0, x: -300, y: y};
+  });
+  y = -500;
+  const t = themes.map(s => {
+    y = y + 1000/themes.length;
+    return {id: s.id, label: s.label, group: 1, x: 0, y: y};
+  });
+  y = -400;
+  const te = techs.map(s => {
+      y = y + 800/techs.length;
+    return {id: s.id, label: s.label, group: 2, x: 300, y: y};
+  });
+  const visNodes = new vis.DataSet(s.concat(t).concat(te));
+  const visEdges = new vis.DataSet(edges.map(e => {
+      return {from: e[0], to: e[1]};
+  }));
+  
+  // create a network
+  var container = document.getElementById('vis');
+  var data = {
+    nodes: visNodes,
+    edges: visEdges
+  };
+  var cOptions = {
+          joinCondition:function(nodeOptions) {
+            return nodeOptions.cid === 1;
+          }
+        }
+  //network.clustering.cluster(options);
+
+  var options = {
+    physics:{
+      enabled: false
+    },
+    nodes: {
+      shape: 'box',
+      font: {
+        size: 22
+      },
+      margin: {
+        top: 5,
+        left: 10,
+        right: 10,
+        bottom: 5
+      },
+      size: 30
+    }
+  };
+  var network = new vis.Network(container, data, options);
+});
+
+</script>
+
+<div id="cy"></div>
+<div id="vis"></div>
+</body>
+</html>

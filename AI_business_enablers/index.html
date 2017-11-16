@@ -155,17 +155,17 @@ $(function() {
   var y = -400;
   const s = segments.map(s => {
     y = y + 800/segments.length;
-    return {id: s.id, label: s.label, group: 0, x: -300, y: y};
+    return {id: s.id, label: s.label, group: 0, x: -500, y: y};
   });
-  y = -500;
+  y = -400;
   const t = themes.map(s => {
-    y = y + 1000/themes.length;
+    y = y + 800/themes.length;
     return {id: s.id, label: s.label, group: 1, x: 0, y: y};
   });
   y = -400;
   const te = techs.map(s => {
       y = y + 800/techs.length;
-    return {id: s.id, label: s.label, group: 2, x: 300, y: y};
+    return {id: s.id, label: s.label, group: 2, x: 500, y: y};
   });
   const visNodes = new vis.DataSet(s.concat(t).concat(te));
   const visEdges = new vis.DataSet(edges.map(e => {
@@ -192,7 +192,7 @@ $(function() {
     nodes: {
       shape: 'box',
       font: {
-        size: 22
+        size: 30
       },
       margin: {
         top: 5,
